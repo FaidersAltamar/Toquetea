@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { business, copy, packages } from './siteData.js';
+import { business, copy, packages, services } from './siteData.js';
 
-const navTargets = ['how-it-works', 'packages', 'why-us', 'faq', 'contact'];
+const navTargets = ['how-it-works', 'packages', 'services', 'why-us', 'faq', 'contact'];
 
 function whatsappLink(message) {
   return `https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -16,6 +16,7 @@ function App() {
   const [language, setLanguage] = useState('es');
   const t = copy[language];
   const product = business.productName[language];
+  const availableServices = services.filter((service) => service.available);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -146,6 +147,35 @@ function App() {
           </div>
         </section>
 
+        {availableServices.length > 0 ? (
+          <section className="section centered services" id="services">
+            <p className="eyebrow">{t.servicesEyebrow}</p>
+            <h2>{t.servicesTitle}</h2>
+            <p>{t.servicesText}</p>
+            <div className="services-grid">
+              {availableServices.map((service) => (
+                <article className="price-card service-price-card" key={service.id}>
+                  <h3>{service.name}</h3>
+                  <p className="credits">{service.duration[language]}</p>
+                  <strong className="price">{service.price[language]}</strong>
+                  <ul>
+                    {service.features[language].map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))}
+                  </ul>
+                  <a
+                    className="button button-wide"
+                    href={whatsappLink(`${t.serviceMessage} ${service.name} (${service.duration[language]}).`)}
+                    {...externalLinkProps}
+                  >
+                    {t.serviceCta} {service.name}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         <section className="section split" id="why-us">
           <div>
             <p className="eyebrow">{t.trustEyebrow}</p>
@@ -164,12 +194,22 @@ function App() {
 
         <section className="section centered testimonials" aria-label={t.testimonialsAria}>
           <p className="eyebrow">{t.testimonialsEyebrow}</p>
-          <h2>{t.testimonialsTitle}</h2>
+          <h2>
+            {t.testimonialsTitleStart} <span className="gradient-text">{t.testimonialsTitleAccent}</span> {t.testimonialsTitleEnd}
+          </h2>
+          <p>{t.testimonialsSubtitle}</p>
           <div className="testimonial-grid">
-            {t.testimonials.map(([quote, author]) => (
-              <blockquote key={author}>
-                <p>"{quote}"</p>
-                <cite>{author}</cite>
+            {t.testimonials.map((review) => (
+              <blockquote key={review.name}>
+                <div className="review-header">
+                  <div className="review-avatar">{review.initials}</div>
+                  <div>
+                    <cite>{review.name}</cite>
+                    <span>{review.role}</span>
+                  </div>
+                </div>
+                <div className="stars" aria-label="5 stars">★★★★★</div>
+                <p>"{review.quote}"</p>
               </blockquote>
             ))}
           </div>

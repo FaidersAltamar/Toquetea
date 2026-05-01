@@ -384,6 +384,7 @@ details,
 }
 
 .steps-grid,
+.services-grid,
 .pricing-grid,
 .testimonial-grid,
 .reason-grid {
@@ -394,6 +395,23 @@ details,
 
 .steps-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.services-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.services {
+  padding-top: 28px;
+}
+
+.service-price-card {
+  min-height: 430px;
+}
+
+.service-price-card:nth-child(2n) {
+  background: linear-gradient(180deg, rgba(255, 77, 141, 0.13), rgba(255, 255, 255, 0.045));
+  border-color: rgba(255, 77, 141, 0.28);
 }
 
 .glass-card,
@@ -485,7 +503,84 @@ details,
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.testimonials {
+  max-width: 1320px;
+}
+
+.testimonials h2 {
+  font-size: clamp(36px, 5.4vw, 58px);
+  letter-spacing: -0.055em;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #8e83ff, #d26bff 42%, #ff4d8d 72%, #ff8a6b);
+  background-clip: text;
+  color: transparent;
+}
+
+.testimonials > p:not(.eyebrow) {
+  font-size: 19px;
+  margin-bottom: 62px;
+}
+
 blockquote {
+  margin: 0;
+}
+
+.testimonial-grid blockquote {
+  background: rgba(7, 7, 17, 0.82);
+  border-color: rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 0 52px -28px rgba(255, 77, 141, 0.85);
+  min-height: 276px;
+  padding: 34px;
+}
+
+.review-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.review-avatar {
+  align-items: center;
+  background: linear-gradient(135deg, #7c83ff, #d26bff 42%, #ff4d8d 75%);
+  border-radius: 999px;
+  color: white;
+  display: flex;
+  flex: 0 0 60px;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  height: 60px;
+  justify-content: center;
+  width: 60px;
+}
+
+.review-header cite {
+  display: block;
+  font-size: 21px;
+  margin-bottom: 4px;
+}
+
+.review-header span {
+  color: var(--muted);
+  display: block;
+}
+
+.stars {
+  color: #ffd84d;
+  font-size: 19px;
+  letter-spacing: 4px;
+  margin-bottom: 18px;
+  text-shadow: 0 0 12px rgba(255, 216, 77, 0.24);
+}
+
+.testimonial-grid blockquote p {
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.55;
   margin: 0;
 }
 
@@ -574,6 +669,7 @@ footer p {
 
   .stats-grid,
   .steps-grid,
+  .services-grid,
   .testimonial-grid,
   .reason-grid,
   .pricing-grid {
@@ -620,6 +716,7 @@ footer p {
 
   .stats-grid,
   .steps-grid,
+  .services-grid,
   .testimonial-grid,
   .reason-grid,
   .pricing-grid {
