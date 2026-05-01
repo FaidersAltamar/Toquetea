@@ -27,12 +27,47 @@
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 12% 8%, rgba(107, 163, 255, 0.26), transparent 32rem),
-    radial-gradient(circle at 78% 14%, rgba(255, 77, 141, 0.24), transparent 34rem),
-    radial-gradient(circle at 82% 72%, rgba(255, 179, 107, 0.16), transparent 30rem),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 58%, #080810 100%);
+    radial-gradient(circle at 20% 0%, rgba(107, 163, 255, 0.14), transparent 30rem),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 48%, #080810 100%);
   color: var(--text);
   overflow-x: hidden;
+}
+
+.top-visual {
+  background:
+    radial-gradient(circle at 12% 6%, rgba(107, 163, 255, 0.34), transparent 26rem),
+    radial-gradient(circle at 74% 20%, rgba(255, 77, 141, 0.42), transparent 38rem),
+    radial-gradient(circle at 52% 86%, rgba(255, 124, 49, 0.34), transparent 34rem),
+    radial-gradient(circle at 30% 44%, rgba(199, 89, 255, 0.18), transparent 28rem),
+    linear-gradient(135deg, #0a1e43 0%, #130827 38%, #5b123c 70%, #10101f 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.top-visual::before {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-size: 32px 32px;
+  content: '';
+  inset: 0;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.82), transparent 92%);
+  opacity: 0.22;
+  pointer-events: none;
+  position: absolute;
+}
+
+.top-visual::after {
+  background:
+    radial-gradient(circle at 86% 90%, rgba(255, 77, 141, 0.32), transparent 22rem),
+    linear-gradient(180deg, transparent 0%, rgba(8, 8, 16, 0.52) 84%, #080810 100%);
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.top-visual > * {
+  position: relative;
+  z-index: 1;
 }
 
 body::before {
@@ -136,10 +171,14 @@ a {
 .hero {
   align-items: center;
   display: grid;
-  gap: 54px;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: 40px;
+  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
   min-height: calc(100vh - 78px);
   padding-top: 72px;
+}
+
+.hero-copy {
+  max-width: 760px;
 }
 
 .eyebrow {
@@ -256,38 +295,222 @@ p {
 
 .hero-card {
   aspect-ratio: 0.96;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)),
-    radial-gradient(circle at 28% 24%, rgba(107, 163, 255, 0.34), transparent 34%),
-    radial-gradient(circle at 72% 54%, rgba(255, 77, 141, 0.4), transparent 42%),
-    radial-gradient(circle at 50% 85%, rgba(255, 179, 107, 0.18), transparent 42%);
-  border: 1px solid var(--line);
-  border-radius: 32px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  justify-self: end;
+  margin-top: 92px;
+  max-width: 560px;
+  overflow: visible;
   position: relative;
+  width: 100%;
 }
 
 .orb {
-  border-radius: 999px;
-  filter: blur(4px);
-  position: absolute;
+  display: none;
 }
 
 .orb-one {
-  background: linear-gradient(135deg, var(--blue), #d26bff);
-  height: 230px;
-  left: 12%;
-  top: 16%;
-  width: 230px;
+  background: rgba(255, 77, 141, 0.42);
+  filter: blur(42px);
+  height: 260px;
+  right: 2%;
+  top: 18%;
+  width: 260px;
 }
 
 .orb-two {
-  background: linear-gradient(135deg, var(--pink), var(--orange));
-  bottom: 12%;
-  height: 270px;
-  right: 5%;
-  width: 270px;
+  background: rgba(107, 163, 255, 0.28);
+  bottom: 10%;
+  filter: blur(52px);
+  height: 300px;
+  left: 0;
+  width: 300px;
+}
+
+.brand-app-icon {
+  align-items: center;
+  animation: floatIcon 4.8s ease-in-out infinite;
+  background: rgba(7, 7, 17, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 18px 54px rgba(255, 77, 141, 0.34);
+  display: flex;
+  font-size: 34px;
+  height: 84px;
+  justify-content: center;
+  left: 48px;
+  position: absolute;
+  top: 48px;
+  width: 84px;
+  z-index: 3;
+}
+
+.floating-card {
+  animation: floatCard 5.6s ease-in-out infinite;
+  background: linear-gradient(135deg, #fff84f 0%, #ff9f51 32%, #ff4d8d 68%, #7c4dff 100%);
+  border: 2px solid rgba(255, 255, 255, 0.64);
+  border-radius: 26px;
+  box-shadow:
+    0 36px 80px rgba(255, 77, 141, 0.28),
+    0 18px 70px rgba(77, 227, 255, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  height: 220px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 34px 32px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -38%) rotate(4deg);
+  width: min(66%, 340px);
+  z-index: 2;
+}
+
+.floating-card::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent 62%);
+  content: '';
+  height: 70px;
+  opacity: 0.36;
+  position: absolute;
+  right: 28px;
+  top: 22px;
+  width: 70px;
+}
+
+.card-chip {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.54), rgba(123, 71, 33, 0.18));
+  background-size: 10px 10px, 10px 10px, auto;
+  border: 1px solid rgba(124, 79, 30, 0.18);
+  border-radius: 8px;
+  height: 32px;
+  left: 34px;
+  position: absolute;
+  top: 34px;
+  width: 42px;
+}
+
+.floating-card strong {
+  color: #ffffff;
+  display: block;
+  font-family: Sora, Inter, sans-serif;
+  font-size: clamp(42px, 5vw, 58px);
+  letter-spacing: -0.055em;
+  line-height: 1;
+  margin: 56px 0 10px;
+  position: relative;
+  text-shadow: 0 4px 26px rgba(75, 17, 58, 0.36);
+  z-index: 4;
+}
+
+.floating-card p {
+  background: rgba(68, 18, 64, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.98);
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  padding: 7px 12px;
+  position: relative;
+  text-shadow: 0 2px 14px rgba(42, 8, 38, 0.5);
+  z-index: 4;
+}
+
+.cloud {
+  background: linear-gradient(180deg, #fff8fc 0%, #ffd8ea 48%, #ff9fcb 100%);
+  border-radius: 999px;
+  bottom: -66px;
+  box-shadow:
+    0 16px 34px rgba(255, 77, 141, 0.2),
+    inset 0 10px 26px rgba(255, 255, 255, 0.5);
+  filter: drop-shadow(0 18px 24px rgba(255, 77, 141, 0.22));
+  height: 82px;
+  opacity: 0.98;
+  position: absolute;
+  z-index: 3;
+}
+
+.cloud-one {
+  animation: cloudDrift 4.6s ease-in-out infinite;
+  left: -26px;
+  width: 170px;
+}
+
+.cloud-two {
+  animation: cloudDrift 5.2s ease-in-out infinite reverse;
+  left: 86px;
+  width: 190px;
+}
+
+.cloud-three {
+  animation: cloudDrift 5.8s ease-in-out infinite;
+  right: -30px;
+  width: 168px;
+}
+
+.cloud::after {
+  background:
+    radial-gradient(circle at 18% 54%, #fff8fc 0 22px, transparent 23px),
+    radial-gradient(circle at 38% 35%, #ffe8f2 0 34px, transparent 35px),
+    radial-gradient(circle at 62% 42%, #ffd7e9 0 42px, transparent 43px),
+    radial-gradient(circle at 82% 58%, #ffc1dc 0 30px, transparent 31px);
+  border-radius: 999px;
+  content: '';
+  inset: -34px -12px 14px;
+  position: absolute;
+}
+
+.cloud::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.92), transparent 60%);
+  border-radius: 999px;
+  content: '';
+  height: 16px;
+  left: 22%;
+  position: absolute;
+  top: 28%;
+  width: 16px;
+  z-index: 2;
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translate(-50%, -38%) rotate(4deg);
+  }
+
+  50% {
+    transform: translate(-50%, -44%) rotate(1deg);
+  }
+}
+
+@keyframes floatIcon {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+}
+
+@keyframes cloudDrift {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.04);
+  }
 }
 
 .credit-panel,
@@ -386,6 +609,7 @@ details,
 }
 
 .steps-grid,
+.api-grid,
 .services-grid,
 .pricing-grid,
 .testimonial-grid,
@@ -403,17 +627,24 @@ details,
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.api-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.apis {
+  padding-top: 28px;
+}
+
+.api-price-card {
+  min-height: 390px;
+}
+
 .services {
   padding-top: 28px;
 }
 
 .service-price-card {
   min-height: 430px;
-}
-
-.service-price-card:nth-child(2n) {
-  background: linear-gradient(180deg, rgba(255, 77, 141, 0.13), rgba(255, 255, 255, 0.045));
-  border-color: rgba(255, 77, 141, 0.28);
 }
 
 .glass-card,
@@ -441,21 +672,54 @@ details,
 }
 
 .price-card {
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(8, 7, 18, 0.84);
+  border-color: rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   position: relative;
-  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
 }
 
-.price-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 77, 141, 0.4);
+.price-card::before {
+  background: radial-gradient(circle at 50% 0%, rgba(255, 77, 141, 0.28), transparent 56%);
+  content: '';
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.2s ease;
+}
+
+.price-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.price-card:hover,
+.price-card:focus-within {
+  background: rgba(12, 8, 22, 0.94);
+  border-color: rgba(255, 77, 141, 0.48);
+  box-shadow:
+    0 0 0 1px rgba(255, 77, 141, 0.18),
+    0 28px 90px -28px rgba(255, 77, 141, 0.9),
+    0 20px 60px -28px rgba(124, 77, 255, 0.7);
   transform: translateY(-4px);
 }
 
+.price-card:hover::before,
+.price-card:focus-within::before,
+.price-card.featured::before {
+  opacity: 1;
+}
+
 .price-card.featured {
-  background: linear-gradient(180deg, rgba(255, 77, 141, 0.2), rgba(255, 255, 255, 0.08));
+  background: rgba(12, 8, 22, 0.94);
   border-color: rgba(255, 77, 141, 0.5);
-  box-shadow: var(--glow);
+  box-shadow:
+    0 0 0 1px rgba(255, 77, 141, 0.2),
+    0 34px 110px -30px rgba(255, 77, 141, 0.95),
+    0 18px 70px -34px rgba(124, 77, 255, 0.85);
   transform: scale(1.035);
 }
 
@@ -471,21 +735,60 @@ details,
 }
 
 .price {
-  display: block;
+  align-items: baseline;
+  background: linear-gradient(135deg, var(--pink) 0%, #d84ddf 48%, var(--violet) 100%);
+  background-clip: text;
+  color: transparent;
+  display: flex;
   font-family: Sora, Inter, sans-serif;
-  font-size: 28px;
+  font-size: 42px;
   margin-bottom: 24px;
 }
 
-.price-card ul {
+.price small {
   color: var(--muted);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.price-text {
+  background: linear-gradient(135deg, var(--pink) 0%, #d84ddf 48%, var(--violet) 100%);
+  background-clip: text;
+  color: transparent;
+  display: block;
+  font-size: 30px;
+}
+
+.price-card ul {
+  color: var(--text);
   line-height: 1.9;
-  margin: 0 0 26px;
-  padding-left: 18px;
+  margin: 0 0 28px;
+  padding-left: 0;
+  position: relative;
+}
+
+.price-card .button {
+  margin-top: auto;
+}
+
+.price-card li {
+  font-weight: 700;
+  list-style: none;
+  padding-left: 24px;
+  position: relative;
+}
+
+.price-card li::before {
+  color: var(--pink);
+  content: '✓';
+  font-weight: 900;
+  left: 0;
+  position: absolute;
 }
 
 .custom-card {
-  background: linear-gradient(180deg, rgba(77, 227, 255, 0.16), rgba(255, 255, 255, 0.06));
   grid-column: span 2;
 }
 
@@ -666,6 +969,9 @@ footer p {
   }
 
   .hero-card {
+    justify-self: stretch;
+    margin-top: 0;
+    max-width: none;
     min-height: 430px;
   }
 
@@ -676,6 +982,7 @@ footer p {
 
   .stats-grid,
   .steps-grid,
+  .api-grid,
   .services-grid,
   .testimonial-grid,
   .reason-grid,
@@ -796,6 +1103,59 @@ footer p {
     width: min(82%, 300px);
   }
 
+  .brand-app-icon {
+    border-radius: 22px;
+    font-size: 26px;
+    height: 64px;
+    left: 22px;
+    top: 22px;
+    width: 64px;
+  }
+
+  .floating-card {
+    border-radius: 22px;
+    height: 190px;
+    padding: 28px 24px;
+    transform: translate(-50%, -34%) rotate(4deg);
+    width: min(72%, 290px);
+  }
+
+  .card-chip {
+    height: 26px;
+    left: 26px;
+    top: 28px;
+    width: 34px;
+  }
+
+  .floating-card strong {
+    font-size: 38px;
+    margin: 46px 0 8px;
+  }
+
+  .floating-card p {
+    font-size: 14px;
+  }
+
+  .cloud {
+    bottom: -42px;
+    height: 68px;
+  }
+
+  .cloud-one {
+    left: -22px;
+    width: 126px;
+  }
+
+  .cloud-two {
+    left: 68px;
+    width: 142px;
+  }
+
+  .cloud-three {
+    right: -22px;
+    width: 122px;
+  }
+
   .credit-panel strong {
     font-size: 32px;
   }
@@ -835,6 +1195,7 @@ footer p {
   }
 
   .steps-grid,
+  .api-grid,
   .services-grid,
   .pricing-grid,
   .testimonial-grid,
@@ -844,6 +1205,7 @@ footer p {
   }
 
   .price-card,
+  .api-price-card,
   .service-price-card {
     min-height: auto;
   }
@@ -905,6 +1267,7 @@ footer p {
 
   .stats-grid,
   .steps-grid,
+  .api-grid,
   .services-grid,
   .testimonial-grid,
   .reason-grid,
@@ -941,6 +1304,21 @@ footer p {
 
   .hero-card {
     min-height: 300px;
+  }
+
+  .brand-app-icon {
+    height: 56px;
+    width: 56px;
+  }
+
+  .floating-card {
+    height: 174px;
+    width: min(76%, 260px);
+  }
+
+  .floating-card strong {
+    font-size: 32px;
+    margin-top: 42px;
   }
 
   .credit-panel strong {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { business, copy, packages, services } from './siteData.js';
+import { apis, business, copy, packages, services } from './siteData.js';
 
-const navTargets = ['how-it-works', 'packages', 'services', 'why-us', 'faq', 'contact'];
+const navTargets = ['how-it-works', 'packages', 'apis', 'services', 'why-us', 'faq', 'contact'];
 
 function whatsappLink(message) {
   return `https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -12,11 +12,27 @@ const externalLinkProps = {
   rel: 'noopener noreferrer',
 };
 
+function Price({ value }) {
+  const match = value.match(/^(\$\d+)\s?(.*)$/);
+
+  if (!match) {
+    return <strong className="price price-text">{value}</strong>;
+  }
+
+  return (
+    <strong className="price">
+      <span>{match[1]}</span>
+      {match[2] ? <small>{match[2]}</small> : null}
+    </strong>
+  );
+}
+
 function App() {
   const [language, setLanguage] = useState('es');
   const t = copy[language];
   const product = business.productName[language];
   const availableServices = services.filter((service) => service.available);
+  const availableApis = apis.filter((api) => api.available);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -24,31 +40,31 @@ function App() {
 
   return (
     <>
-      <header className="site-header">
-        <nav className="nav-shell" aria-label={t.navAria}>
-          <a className="brand" href="#home" aria-label={t.homeAria}>
-            <span className="brand-mark">T</span>
-            {business.brand}
-          </a>
-          <div className="nav-links">
-            {t.nav.map((item, index) => (
-              <a key={item} href={`#${navTargets[index]}`}>
-                {item}
-              </a>
-            ))}
-          </div>
-          <div className="nav-actions">
-            <button className="language-toggle" type="button" onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}>
-              {t.language}
-            </button>
-            <a className="button button-small button-whatsapp" href={whatsappLink(t.orderMessage)} {...externalLinkProps}>
-              WhatsApp
+      <div className="top-visual">
+        <header className="site-header">
+          <nav className="nav-shell" aria-label={t.navAria}>
+            <a className="brand" href="#home" aria-label={t.homeAria}>
+              <span className="brand-mark">T</span>
+              {business.brand}
             </a>
-          </div>
-        </nav>
-      </header>
+            <div className="nav-links">
+              {t.nav.map((item, index) => (
+                <a key={item} href={`#${navTargets[index]}`}>
+                  {item}
+                </a>
+              ))}
+            </div>
+            <div className="nav-actions">
+              <button className="language-toggle" type="button" onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}>
+                {t.language}
+              </button>
+              <a className="button button-small button-whatsapp" href={whatsappLink(t.orderMessage)} {...externalLinkProps}>
+                WhatsApp
+              </a>
+            </div>
+          </nav>
+        </header>
 
-      <main>
         <section className="hero section" id="home">
           <div className="hero-copy">
             <p className="eyebrow">{t.heroEyebrow}</p>
@@ -71,16 +87,19 @@ function App() {
           <div className="hero-card" aria-label={t.heroVisualAria}>
             <div className="orb orb-one" />
             <div className="orb orb-two" />
-            <div className="credit-panel">
-              <span className="panel-label">{t.panelLabel}</span>
-              <strong>{t.panelValue}</strong>
-              <p>{t.panelText}</p>
+            <div className="brand-app-icon" aria-hidden="true">💗</div>
+            <div className="floating-card">
+              <div className="card-chip" aria-hidden="true" />
+              <strong>{business.brand}</strong>
+              <div className="cloud cloud-one" aria-hidden="true" />
+              <div className="cloud cloud-two" aria-hidden="true" />
+              <div className="cloud cloud-three" aria-hidden="true" />
             </div>
-            <div className="mini-card top">{t.miniTop}</div>
-            <div className="mini-card bottom">{t.miniBottom}</div>
           </div>
         </section>
+      </div>
 
+      <main>
         <section className="stats-band" aria-label={t.statsAria}>
           <h2>{t.trustTitle}</h2>
           <div className="stats-grid">
@@ -115,7 +134,7 @@ function App() {
                 {plan.highlighted ? <span className="badge">{t.featuredBadge}</span> : null}
                 <h3>{plan.name[language]}</h3>
                 <p className="credits">{plan.credits} {t.creditsLabel}</p>
-                <strong className="price">{plan.price}</strong>
+                <Price value={plan.price} />
                 <ul>
                   {plan.features[language].map((feature) => (
                     <li key={feature}>{feature}</li>
@@ -133,7 +152,7 @@ function App() {
             <article className="price-card custom-card">
               <h3>{t.customTitle}</h3>
               <p className="credits">{t.unlimited}</p>
-              <strong className="price">{t.customPrice}</strong>
+              <Price value={t.customPrice} />
               <p>{t.customText}</p>
               <ul>
                 {t.customFeatures.map((feature) => (
@@ -147,6 +166,35 @@ function App() {
           </div>
         </section>
 
+        {availableApis.length > 0 ? (
+          <section className="section centered apis" id="apis">
+            <p className="eyebrow">{t.apisEyebrow}</p>
+            <h2>{t.apisTitle}</h2>
+            <p>{t.apisText}</p>
+            <div className="api-grid">
+              {availableApis.map((api) => (
+                <article className="price-card api-price-card" key={api.id}>
+                  <h3>{api.name}</h3>
+                  <p className="credits">{api.usage[language]}</p>
+                  <Price value={api.price[language]} />
+                  <ul>
+                    {api.features[language].map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))}
+                  </ul>
+                  <a
+                    className="button button-wide"
+                    href={whatsappLink(`${t.apiMessage} ${api.name}.`)}
+                    {...externalLinkProps}
+                  >
+                    {t.apiCta} {api.name}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         {availableServices.length > 0 ? (
           <section className="section centered services" id="services">
             <p className="eyebrow">{t.servicesEyebrow}</p>
@@ -157,7 +205,7 @@ function App() {
                 <article className="price-card service-price-card" key={service.id}>
                   <h3>{service.name}</h3>
                   <p className="credits">{service.duration[language]}</p>
-                  <strong className="price">{service.price[language]}</strong>
+                  <Price value={service.price[language]} />
                   <ul>
                     {service.features[language].map((feature) => (
                       <li key={feature}>{feature}</li>
