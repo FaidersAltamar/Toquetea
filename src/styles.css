@@ -32,6 +32,7 @@ body {
     radial-gradient(circle at 82% 72%, rgba(255, 179, 107, 0.16), transparent 30rem),
     linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 58%, #080810 100%);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 body::before {
@@ -204,6 +205,7 @@ p {
   display: inline-flex;
   font-weight: 800;
   justify-content: center;
+  text-align: center;
   padding: 15px 22px;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
@@ -667,6 +669,11 @@ footer p {
     min-height: 430px;
   }
 
+  .pricing-grid,
+  .services-grid {
+    align-items: stretch;
+  }
+
   .stats-grid,
   .steps-grid,
   .services-grid,
@@ -683,7 +690,24 @@ footer p {
 
 @media (max-width: 640px) {
   .site-header {
-    padding: 10px 10px 0;
+    padding: 8px 10px 0;
+  }
+
+  .nav-shell {
+    border-radius: 22px;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .brand {
+    font-size: 18px;
+    justify-content: center;
+  }
+
+  .brand-mark {
+    border-radius: 10px;
+    height: 30px;
+    width: 30px;
   }
 
   .nav-links {
@@ -691,20 +715,49 @@ footer p {
   }
 
   .nav-actions {
-    justify-content: space-between;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
   }
 
   .section {
-    padding: 72px 16px;
+    padding: 58px 16px;
   }
 
   .hero {
-    gap: 34px;
-    padding-top: 54px;
+    gap: 28px;
+    padding-top: 40px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: clamp(34px, 11vw, 48px);
+    letter-spacing: -0.045em;
+    line-height: 1.04;
+  }
+
+  h2,
+  .testimonials h2 {
+    font-size: clamp(30px, 9vw, 40px);
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  h3 {
+    font-size: 21px;
+  }
+
+  .hero-text {
+    font-size: 17px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
 
   .hero-actions,
-  .nav-actions {
+  .trust-list {
     align-items: stretch;
     flex-direction: column;
   }
@@ -712,6 +765,142 @@ footer p {
   .button,
   .language-toggle {
     width: 100%;
+  }
+
+  .button {
+    padding: 14px 18px;
+  }
+
+  .trust-list li {
+    text-align: center;
+  }
+
+  .hero-card {
+    aspect-ratio: auto;
+    border-radius: 26px;
+    min-height: 330px;
+  }
+
+  .orb-one {
+    height: 175px;
+    width: 175px;
+  }
+
+  .orb-two {
+    height: 205px;
+    width: 205px;
+  }
+
+  .credit-panel {
+    padding: 22px;
+    width: min(82%, 300px);
+  }
+
+  .credit-panel strong {
+    font-size: 32px;
+  }
+
+  .mini-card {
+    font-size: 13px;
+    padding: 12px 14px;
+  }
+
+  .mini-card.top {
+    right: 16px;
+    top: 18px;
+  }
+
+  .mini-card.bottom {
+    bottom: 18px;
+    left: 16px;
+  }
+
+  .stats-band {
+    padding: 36px 16px;
+  }
+
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .stats-grid strong,
+  .glass-card,
+  .price-card,
+  blockquote,
+  details,
+  .contact-card,
+  .reason-grid article {
+    border-radius: 20px;
+    padding: 22px;
+  }
+
+  .steps-grid,
+  .services-grid,
+  .pricing-grid,
+  .testimonial-grid,
+  .reason-grid {
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .price-card,
+  .service-price-card {
+    min-height: auto;
+  }
+
+  .price-card:hover {
+    transform: none;
+  }
+
+  .price {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .price-card ul {
+    margin-bottom: 22px;
+  }
+
+  .testimonials > p:not(.eyebrow) {
+    font-size: 16px;
+    margin-bottom: 34px;
+  }
+
+  .testimonial-grid blockquote {
+    min-height: auto;
+    padding: 24px;
+  }
+
+  .review-header {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .review-avatar {
+    flex-basis: 52px;
+    height: 52px;
+    width: 52px;
+  }
+
+  .review-header cite {
+    font-size: 18px;
+  }
+
+  .stars {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .testimonial-grid blockquote p {
+    font-size: 16px;
+  }
+
+  summary {
+    font-size: 17px;
+  }
+
+  .contact-card a {
+    overflow-wrap: anywhere;
   }
 
   .stats-grid,
@@ -729,5 +918,46 @@ footer p {
 
   .price-card.featured {
     transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .section {
+    padding-inline: 12px;
+  }
+
+  .nav-actions {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: clamp(32px, 12vw, 42px);
+  }
+
+  h2,
+  .testimonials h2 {
+    font-size: clamp(28px, 10vw, 36px);
+  }
+
+  .hero-card {
+    min-height: 300px;
+  }
+
+  .credit-panel strong {
+    font-size: 28px;
+  }
+
+  .mini-card.bottom {
+    max-width: 160px;
+  }
+
+  .stats-grid strong,
+  .glass-card,
+  .price-card,
+  blockquote,
+  details,
+  .contact-card,
+  .reason-grid article {
+    padding: 20px;
   }
 }
