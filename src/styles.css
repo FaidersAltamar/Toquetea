@@ -828,6 +828,23 @@ details,
   margin-bottom: 62px;
 }
 
+.testimonial-slider {
+  margin-top: 36px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.testimonial-track {
+  display: flex;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.testimonial-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
 blockquote {
   margin: 0;
 }
@@ -887,6 +904,32 @@ blockquote {
   font-style: italic;
   line-height: 1.55;
   margin: 0;
+}
+
+.testimonial-dots {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.testimonial-dots button {
+  background: rgba(255, 255, 255, 0.18);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  height: 10px;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease, width 0.2s ease;
+  width: 10px;
+}
+
+.testimonial-dots button.active,
+.testimonial-dots button:hover {
+  background: linear-gradient(135deg, var(--pink), var(--violet));
+  transform: translateY(-1px);
+  width: 28px;
 }
 
 cite {

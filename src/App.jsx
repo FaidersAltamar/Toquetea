@@ -27,16 +27,44 @@ function Price({ value }) {
   );
 }
 
+function chunkItems(items, size) {
+  const chunks = [];
+
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+
+  return chunks;
+}
+
 function App() {
   const [language, setLanguage] = useState('es');
+  const [activeTestimonialSlide, setActiveTestimonialSlide] = useState(0);
   const t = copy[language];
   const product = business.productName[language];
   const availableServices = services.filter((service) => service.available);
   const availableApis = apis.filter((api) => api.available);
+  const testimonialSlides = chunkItems(t.testimonials, 3);
 
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    setActiveTestimonialSlide(0);
+  }, [language]);
+
+  useEffect(() => {
+    if (testimonialSlides.length <= 1) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setActiveTestimonialSlide((currentSlide) => (currentSlide + 1) % testimonialSlides.length);
+    }, 4800);
+
+    return () => window.clearInterval(intervalId);
+  }, [testimonialSlides.length]);
 
   return (
     <>
@@ -246,19 +274,38 @@ function App() {
             {t.testimonialsTitleStart} <span className="gradient-text">{t.testimonialsTitleAccent}</span> {t.testimonialsTitleEnd}
           </h2>
           <p>{t.testimonialsSubtitle}</p>
-          <div className="testimonial-grid">
-            {t.testimonials.map((review) => (
-              <blockquote key={review.name}>
-                <div className="review-header">
-                  <div className="review-avatar">{review.initials}</div>
-                  <div>
-                    <cite>{review.name}</cite>
-                    <span>{review.role}</span>
+          <div className="testimonial-slider">
+            <div className="testimonial-track" style={{ transform: `translateX(-${activeTestimonialSlide * 100}%)` }}>
+              {testimonialSlides.map((slide, slideIndex) => (
+                <div className="testimonial-slide" key={`slide-${slideIndex}`}>
+                  <div className="testimonial-grid">
+                    {slide.map((review) => (
+                      <blockquote key={review.name}>
+                        <div className="review-header">
+                          <div className="review-avatar">{review.initials}</div>
+                          <div>
+                            <cite>{review.name}</cite>
+                            <span>{review.role}</span>
+                          </div>
+                        </div>
+                        <div className="stars" aria-label="5 stars">★★★★★</div>
+                        <p>"{review.quote}"</p>
+                      </blockquote>
+                    ))}
                   </div>
                 </div>
-                <div className="stars" aria-label="5 stars">★★★★★</div>
-                <p>"{review.quote}"</p>
-              </blockquote>
+              ))}
+            </div>
+          </div>
+          <div className="testimonial-dots" aria-label="Testimonial slides">
+            {testimonialSlides.map((_, slideIndex) => (
+              <button
+                aria-label={`Show testimonial group ${slideIndex + 1}`}
+                className={slideIndex === activeTestimonialSlide ? 'active' : ''}
+                key={`dot-${slideIndex}`}
+                onClick={() => setActiveTestimonialSlide(slideIndex)}
+                type="button"
+              />
             ))}
           </div>
         </section>
