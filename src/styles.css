@@ -636,7 +636,82 @@ details,
 }
 
 .api-price-card {
-  min-height: 390px;
+  min-height: 500px;
+}
+
+.api-category,
+.discount-badge,
+.toquetea-price-label {
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.api-category {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.discount-badge {
+  align-self: flex-start;
+  background: rgba(255, 77, 141, 0.14);
+  border: 1px solid rgba(255, 77, 141, 0.38);
+  border-radius: 999px;
+  color: #ff7ab1;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+  padding: 7px 10px;
+}
+
+.regular-price {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  margin: 16px 0 6px;
+}
+
+.regular-price span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.regular-price del {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 800;
+}
+
+.toquetea-price-label {
+  color: var(--pink);
+  margin-bottom: 6px;
+}
+
+.api-discount-price {
+  display: grid;
+  gap: 2px;
+  margin: 8px 0 24px;
+}
+
+.api-discount-price small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.api-discount-price strong {
+  background: linear-gradient(135deg, var(--pink) 0%, #d84ddf 48%, var(--violet) 100%);
+  background-clip: text;
+  color: transparent;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 42px;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.api-toggle {
+  margin-top: 32px;
+  min-width: 180px;
 }
 
 .services {

@@ -40,10 +40,13 @@ function chunkItems(items, size) {
 function App() {
   const [language, setLanguage] = useState('es');
   const [activeTestimonialSlide, setActiveTestimonialSlide] = useState(0);
+  const [showAllApis, setShowAllApis] = useState(false);
   const t = copy[language];
   const product = business.productName[language];
   const availableServices = services.filter((service) => service.available);
   const availableApis = apis.filter((api) => api.available);
+  const featuredApis = availableApis.filter((api) => api.featured).slice(0, 6);
+  const visibleApis = showAllApis ? availableApis : featuredApis;
   const testimonialSlides = chunkItems(t.testimonials, 3);
 
   useEffect(() => {
@@ -52,6 +55,7 @@ function App() {
 
   useEffect(() => {
     setActiveTestimonialSlide(0);
+    setShowAllApis(false);
   }, [language]);
 
   useEffect(() => {
@@ -200,11 +204,19 @@ function App() {
             <h2>{t.apisTitle}</h2>
             <p>{t.apisText}</p>
             <div className="api-grid">
-              {availableApis.map((api) => (
+              {visibleApis.map((api) => (
                 <article className="price-card api-price-card" key={api.id}>
+                  <span className="api-category">{api.category}</span>
                   <h3>{api.name}</h3>
                   <p className="credits">{api.usage[language]}</p>
-                  <Price value={api.price[language]} />
+                  <div className="regular-price">
+                    <span>{t.apiRegularPrice}</span>
+                    <del>{api.originalPrice[language]}</del>
+                  </div>
+                  <div className="api-discount-price">
+                    <small>{t.apiDiscountPrefix}</small>
+                    <strong>60% OFF</strong>
+                  </div>
                   <ul>
                     {api.features[language].map((feature) => (
                       <li key={feature}>{feature}</li>
@@ -220,6 +232,11 @@ function App() {
                 </article>
               ))}
             </div>
+            {availableApis.length > featuredApis.length ? (
+              <button className="button api-toggle" onClick={() => setShowAllApis((current) => !current)} type="button">
+                {showAllApis ? t.apiShowLess : t.apiShowMore}
+              </button>
+            ) : null}
           </section>
         ) : null}
 
