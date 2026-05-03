@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { ProviderLogo } from './ProviderLogo.jsx';
 import { apis, business, copy, packages, services } from './siteData.js';
+import { useScrollTheme } from './useScrollTheme.js';
 
 const navTargets = ['how-it-works', 'packages', 'apis', 'services', 'why-us', 'faq', 'contact'];
 
@@ -41,13 +43,58 @@ function App() {
   const [language, setLanguage] = useState('es');
   const [activeTestimonialSlide, setActiveTestimonialSlide] = useState(0);
   const [showAllApis, setShowAllApis] = useState(false);
+  useScrollTheme();
   const t = copy[language];
-  const product = business.productName[language];
   const availableServices = services.filter((service) => service.available);
   const availableApis = apis.filter((api) => api.available);
   const featuredApis = availableApis.filter((api) => api.featured).slice(0, 6);
   const visibleApis = showAllApis ? availableApis : featuredApis;
   const testimonialSlides = chunkItems(t.testimonials, 3);
+  const marqueeProviders = useMemo(() => {
+    const seen = new Set();
+    const rows = [];
+    const push = (entry) => {
+      if (seen.has(entry.id)) {
+        return;
+      }
+      seen.add(entry.id);
+      rows.push(entry);
+    };
+
+    const lovableEntry = availableApis.find((api) => api.id === 'lovable-api');
+    if (lovableEntry) {
+      push({ id: lovableEntry.id, name: lovableEntry.name });
+    }
+
+    for (const item of availableServices) {
+      push({ id: item.id, name: item.name });
+    }
+    for (const item of availableApis) {
+      push({ id: item.id, name: item.name });
+    }
+    return rows;
+  }, [availableApis, availableServices]);
+
+  const heroPartnerLogos = useMemo(() => {
+    const dedupeKey = (item) => {
+      const { id } = item;
+      if (id.includes('canva')) return 'brand-canva';
+      if (id === 'chatgpt-plus' || id === 'openai-api') return 'brand-openai';
+      return id;
+    };
+    const picked = new Map();
+    for (const item of marqueeProviders) {
+      const key = dedupeKey(item);
+      if (picked.has(key)) {
+        continue;
+      }
+      picked.set(key, item);
+      if (picked.size >= 6) {
+        break;
+      }
+    }
+    return [...picked.values()];
+  }, [marqueeProviders]);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -119,9 +166,19 @@ function App() {
           <div className="hero-card" aria-label={t.heroVisualAria}>
             <div className="orb orb-one" />
             <div className="orb orb-two" />
-            <div className="brand-app-icon" aria-hidden="true">💗</div>
             <div className="floating-card">
-              <div className="card-chip" aria-hidden="true" />
+              <div className="floating-card-top" aria-hidden="true">
+                <div className="card-chip" />
+                {heroPartnerLogos.length > 0 ? (
+                  <div className="floating-card-partners">
+                    {heroPartnerLogos.map((item) => (
+                      <span className="floating-card-partner-pill" key={item.id} title={item.name}>
+                        <ProviderLogo id={item.id} name={item.name} size={20} />
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
               <strong>{business.brand}</strong>
               <div className="cloud cloud-one" aria-hidden="true" />
               <div className="cloud cloud-two" aria-hidden="true" />
@@ -141,6 +198,28 @@ function App() {
           </div>
         </section>
 
+        {marqueeProviders.length > 0 ? (
+          <section className="section providers-strip" aria-label={t.providersAria}>
+            <div className="providers-strip-inner centered">
+              <p className="eyebrow">{t.providersEyebrow}</p>
+              <h2>{t.providersTitle}</h2>
+              <p className="providers-sub">{t.providersText}</p>
+              <div className="providers-marquee-wrap">
+                <div className="providers-marquee" aria-hidden="true">
+                  <div className="providers-track">
+                    {[...marqueeProviders, ...marqueeProviders].map((item, index) => (
+                      <div className="provider-pill" key={`${item.id}-${index}`} title={item.name}>
+                        <ProviderLogo id={item.id} name={item.name} size={24} />
+                        <span className="provider-name">{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section className="section centered" id="how-it-works">
           <p className="eyebrow">{t.processEyebrow}</p>
           <h2>{t.stepsTitle}</h2>
@@ -156,10 +235,13 @@ function App() {
           </div>
         </section>
 
-        <section className="section centered" id="packages">
-          <p className="eyebrow">{t.pricingEyebrow}</p>
-          <h2>{t.packagesTitle}</h2>
-          <p>{t.packagesText}</p>
+        <section className="section centered packages-lovable" id="packages">
+          <div className="packages-head">
+            <ProviderLogo className="packages-lovable-logo" id="lovable-api" name="Lovable" size={52} />
+            <p className="eyebrow">{t.pricingEyebrow}</p>
+            <h2>{t.packagesTitle}</h2>
+            <p>{t.packagesText}</p>
+          </div>
           <div className="pricing-grid">
             {packages.map((plan) => (
               <article className={`price-card ${plan.highlighted ? 'featured' : ''}`} key={plan.id}>
@@ -207,7 +289,10 @@ function App() {
               {visibleApis.map((api) => (
                 <article className="price-card api-price-card" key={api.id}>
                   <span className="api-category">{api.category}</span>
-                  <h3>{api.name}</h3>
+                  <div className="price-card-heading">
+                    <ProviderLogo id={api.id} name={api.name} size={32} />
+                    <h3>{api.name}</h3>
+                  </div>
                   <p className="credits">{api.usage[language]}</p>
                   <div className="regular-price">
                     <span>{t.apiRegularPrice}</span>
@@ -215,7 +300,11 @@ function App() {
                   </div>
                   <div className="api-discount-price">
                     <small>{t.apiDiscountPrefix}</small>
-                    <strong>60% OFF</strong>
+                    <strong>{api.discount}</strong>
+                  </div>
+                  <div className="api-toquetea-price">
+                    <span className="toquetea-price-label">{t.apiToqueteaPrice}</span>
+                    <Price value={api.price[language]} />
                   </div>
                   <ul>
                     {api.features[language].map((feature) => (
@@ -248,7 +337,10 @@ function App() {
             <div className="services-grid">
               {availableServices.map((service) => (
                 <article className="price-card service-price-card" key={service.id}>
-                  <h3>{service.name}</h3>
+                  <div className="price-card-heading">
+                    <ProviderLogo id={service.id} name={service.name} size={32} />
+                    <h3>{service.name}</h3>
+                  </div>
                   <p className="credits">{service.duration[language]}</p>
                   <Price value={service.price[language]} />
                   <ul>

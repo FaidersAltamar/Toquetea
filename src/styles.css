@@ -15,7 +15,7 @@
   --whatsapp: #25d366;
   --line: rgba(255, 255, 255, 0.14);
   --shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5);
-  --glow: 0 0 60px -14px rgba(255, 77, 141, 0.72);
+  --glow: 0 0 60px -14px color-mix(in srgb, var(--pink) 72%, transparent);
   font-family: Inter, system-ui, sans-serif;
   scroll-behavior: smooth;
 }
@@ -27,7 +27,7 @@
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 20% 0%, rgba(107, 163, 255, 0.14), transparent 30rem),
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--blue) 14%, transparent), transparent 30rem),
     linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 48%, #080810 100%);
   color: var(--text);
   overflow-x: hidden;
@@ -35,10 +35,10 @@ body {
 
 .top-visual {
   background:
-    radial-gradient(circle at 12% 6%, rgba(107, 163, 255, 0.34), transparent 26rem),
-    radial-gradient(circle at 74% 20%, rgba(255, 77, 141, 0.42), transparent 38rem),
-    radial-gradient(circle at 52% 86%, rgba(255, 124, 49, 0.34), transparent 34rem),
-    radial-gradient(circle at 30% 44%, rgba(199, 89, 255, 0.18), transparent 28rem),
+    radial-gradient(circle at 12% 6%, color-mix(in srgb, var(--blue) 34%, transparent), transparent 26rem),
+    radial-gradient(circle at 74% 20%, color-mix(in srgb, var(--pink) 42%, transparent), transparent 38rem),
+    radial-gradient(circle at 52% 86%, color-mix(in srgb, var(--orange) 34%, transparent), transparent 34rem),
+    radial-gradient(circle at 30% 44%, color-mix(in srgb, var(--violet) 18%, transparent), transparent 28rem),
     linear-gradient(135deg, #0a1e43 0%, #130827 38%, #5b123c 70%, #10101f 100%);
   overflow: hidden;
   position: relative;
@@ -57,7 +57,7 @@ body {
 
 .top-visual::after {
   background:
-    radial-gradient(circle at 86% 90%, rgba(255, 77, 141, 0.32), transparent 22rem),
+    radial-gradient(circle at 86% 90%, color-mix(in srgb, var(--pink) 32%, transparent), transparent 22rem),
     linear-gradient(180deg, transparent 0%, rgba(8, 8, 16, 0.52) 84%, #080810 100%);
   content: '';
   inset: 0;
@@ -205,7 +205,7 @@ h3 {
 
 h1 {
   font-size: clamp(44px, 7vw, 86px);
-  background: linear-gradient(135deg, var(--blue), #d26bff 34%, #ff6ba3 68%, var(--orange));
+  background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 34%, var(--pink) 68%, var(--orange) 100%);
   background-clip: text;
   color: transparent;
   letter-spacing: -0.055em;
@@ -308,11 +308,22 @@ p {
 }
 
 .orb {
+  border-radius: 999px;
   display: none;
+  filter: blur(42px);
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+@media (min-width: 981px) {
+  .orb {
+    display: block;
+  }
 }
 
 .orb-one {
-  background: rgba(255, 77, 141, 0.42);
+  background: color-mix(in srgb, var(--pink) 42%, transparent);
   filter: blur(42px);
   height: 260px;
   right: 2%;
@@ -321,7 +332,7 @@ p {
 }
 
 .orb-two {
-  background: rgba(107, 163, 255, 0.28);
+  background: color-mix(in srgb, var(--blue) 28%, transparent);
   bottom: 10%;
   filter: blur(52px);
   height: 300px;
@@ -329,55 +340,87 @@ p {
   width: 300px;
 }
 
-.brand-app-icon {
+.floating-card-top {
   align-items: center;
-  animation: floatIcon 4.8s ease-in-out infinite;
-  background: rgba(7, 7, 17, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
-  box-shadow: 0 18px 54px rgba(255, 77, 141, 0.34);
   display: flex;
-  font-size: 34px;
-  height: 84px;
-  justify-content: center;
-  left: 48px;
-  position: absolute;
-  top: 48px;
-  width: 84px;
-  z-index: 3;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  min-height: 34px;
+  position: relative;
+  width: 100%;
+  z-index: 5;
+}
+
+.floating-card-partners {
+  display: flex;
+  flex-shrink: 1;
+  flex-wrap: nowrap;
+  gap: 5px;
+  justify-content: flex-end;
+  line-height: 0;
+  min-width: 0;
+}
+
+.floating-card-partner-pill {
+  background: rgba(12, 10, 28, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 14px rgba(0, 0, 0, 0.35);
+  display: grid;
+  flex-shrink: 0;
+  height: 30px;
+  line-height: 0;
+  padding: 4px;
+  place-items: center;
+  width: 30px;
+}
+
+.floating-card-partner-pill .provider-logo-img,
+.floating-card-partner-pill svg {
+  border-radius: 6px;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+
+.floating-card-partner-pill .provider-logo-fallback {
+  font-size: 9px;
 }
 
 .floating-card {
   animation: floatCard 5.6s ease-in-out infinite;
-  background: linear-gradient(135deg, #fff84f 0%, #ff9f51 32%, #ff4d8d 68%, #7c4dff 100%);
+  background: linear-gradient(135deg, #fff84f 0%, #ff9f51 32%, var(--pink) 68%, var(--violet) 100%);
   border: 2px solid rgba(255, 255, 255, 0.64);
   border-radius: 26px;
   box-shadow:
-    0 36px 80px rgba(255, 77, 141, 0.28),
-    0 18px 70px rgba(77, 227, 255, 0.16),
+    0 36px 80px color-mix(in srgb, var(--pink) 28%, transparent),
+    0 18px 70px color-mix(in srgb, var(--cyan) 16%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.72);
   height: 220px;
   left: 50%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 34px 32px;
+  padding: 26px 22px 30px;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -38%) rotate(4deg);
-  width: min(66%, 340px);
+  width: min(72%, 360px);
   z-index: 2;
 }
 
 .floating-card::before {
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent 62%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.55), transparent 62%);
   content: '';
-  height: 70px;
-  opacity: 0.36;
+  height: 56px;
+  opacity: 0.28;
   position: absolute;
-  right: 28px;
-  top: 22px;
-  width: 70px;
+  right: 20px;
+  top: 52px;
+  width: 56px;
 }
 
 .card-chip {
@@ -388,10 +431,8 @@ p {
   background-size: 10px 10px, 10px 10px, auto;
   border: 1px solid rgba(124, 79, 30, 0.18);
   border-radius: 8px;
+  flex-shrink: 0;
   height: 32px;
-  left: 34px;
-  position: absolute;
-  top: 34px;
   width: 42px;
 }
 
@@ -402,7 +443,7 @@ p {
   font-size: clamp(42px, 5vw, 58px);
   letter-spacing: -0.055em;
   line-height: 1;
-  margin: 56px 0 10px;
+  margin: 18px 0 10px;
   position: relative;
   text-shadow: 0 4px 26px rgba(75, 17, 58, 0.36);
   z-index: 4;
@@ -425,17 +466,26 @@ p {
 }
 
 .cloud {
-  background: linear-gradient(180deg, #fff8fc 0%, #ffd8ea 48%, #ff9fcb 100%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pink) 10%, white) 0%,
+    color-mix(in srgb, var(--pink) 28%, white) 48%,
+    color-mix(in srgb, var(--pink) 46%, white) 100%
+  );
   border-radius: 999px;
   bottom: -66px;
   box-shadow:
-    0 16px 34px rgba(255, 77, 141, 0.2),
+    0 16px 34px color-mix(in srgb, var(--pink) 20%, transparent),
     inset 0 10px 26px rgba(255, 255, 255, 0.5);
-  filter: drop-shadow(0 18px 24px rgba(255, 77, 141, 0.22));
+  filter: drop-shadow(0 18px 24px color-mix(in srgb, var(--pink) 22%, transparent));
   height: 82px;
   opacity: 0.98;
   position: absolute;
   z-index: 3;
+}
+
+.floating-card .cloud {
+  opacity: 0.9;
 }
 
 .cloud-one {
@@ -577,6 +627,134 @@ details,
   text-align: center;
 }
 
+.providers-strip {
+  padding-block: 56px 72px;
+}
+
+.providers-sub {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 12px auto 0;
+  max-width: 640px;
+}
+
+.providers-marquee-wrap {
+  margin-top: 32px;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  overflow: hidden;
+}
+
+.providers-marquee {
+  overflow: hidden;
+}
+
+.providers-track {
+  animation: providers-scroll 56s linear infinite;
+  display: flex;
+  gap: 14px;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .providers-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@keyframes providers-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.provider-pill {
+  align-items: center;
+  background: rgba(8, 7, 18, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 10px 18px 10px 12px;
+}
+
+.provider-name {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .provider-name {
+    display: none;
+  }
+
+  .provider-pill {
+    padding-inline: 12px;
+  }
+}
+
+.provider-logo {
+  color: rgba(255, 255, 255, 0.92);
+  flex-shrink: 0;
+}
+
+.provider-logo-img {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  object-fit: contain;
+  padding: 3px;
+}
+
+.provider-logo-fallback {
+  align-items: center;
+  background: color-mix(in srgb, var(--pink) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pink) 32%, transparent);
+  border-radius: 12px;
+  color: color-mix(in srgb, var(--pink) 42%, white);
+  display: inline-grid;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  place-items: center;
+}
+
+.price-card-heading {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.price-card-heading h3 {
+  margin-bottom: 0;
+}
+
+.api-toquetea-price {
+  margin: 4px 0 20px;
+}
+
+.api-toquetea-price .price,
+.api-toquetea-price .price-text {
+  font-size: 34px;
+  margin-bottom: 0;
+}
+
 .stats-band h2 {
   font-size: clamp(24px, 3vw, 36px);
   margin: 0 auto 26px;
@@ -654,10 +832,10 @@ details,
 
 .discount-badge {
   align-self: flex-start;
-  background: rgba(255, 77, 141, 0.14);
-  border: 1px solid rgba(255, 77, 141, 0.38);
+  background: color-mix(in srgb, var(--pink) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pink) 38%, transparent);
   border-radius: 999px;
-  color: #ff7ab1;
+  color: color-mix(in srgb, var(--pink) 72%, white);
   letter-spacing: 0.08em;
   margin-bottom: 18px;
   padding: 7px 10px;
@@ -700,7 +878,7 @@ details,
 }
 
 .api-discount-price strong {
-  background: linear-gradient(135deg, var(--pink) 0%, #d84ddf 48%, var(--violet) 100%);
+  background: linear-gradient(135deg, var(--pink) 0%, color-mix(in srgb, var(--pink) 52%, var(--violet)) 48%, var(--violet) 100%);
   background-clip: text;
   color: transparent;
   font-family: Sora, Inter, sans-serif;
@@ -742,8 +920,45 @@ details,
   margin-bottom: 26px;
 }
 
+.packages-head {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 8px;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.packages-head .eyebrow {
+  margin-bottom: 0;
+}
+
+.packages-head h2 {
+  margin-bottom: 12px;
+}
+
+.packages-head > p:not(.eyebrow) {
+  margin-bottom: 0;
+}
+
+.packages-lovable-logo {
+  filter: drop-shadow(0 10px 28px color-mix(in srgb, var(--pink) 35%, transparent));
+}
+
 .pricing-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.packages-lovable .pricing-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.packages-lovable .custom-card {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 760px;
+  width: 100%;
 }
 
 .price-card {
@@ -757,7 +972,7 @@ details,
 }
 
 .price-card::before {
-  background: radial-gradient(circle at 50% 0%, rgba(255, 77, 141, 0.28), transparent 56%);
+  background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--pink) 28%, transparent), transparent 56%);
   content: '';
   inset: 0;
   opacity: 0;
@@ -774,11 +989,11 @@ details,
 .price-card:hover,
 .price-card:focus-within {
   background: rgba(12, 8, 22, 0.94);
-  border-color: rgba(255, 77, 141, 0.48);
+  border-color: color-mix(in srgb, var(--pink) 48%, transparent);
   box-shadow:
-    0 0 0 1px rgba(255, 77, 141, 0.18),
-    0 28px 90px -28px rgba(255, 77, 141, 0.9),
-    0 20px 60px -28px rgba(124, 77, 255, 0.7);
+    0 0 0 1px color-mix(in srgb, var(--pink) 18%, transparent),
+    0 28px 90px -28px color-mix(in srgb, var(--pink) 90%, transparent),
+    0 20px 60px -28px color-mix(in srgb, var(--violet) 70%, transparent);
   transform: translateY(-4px);
 }
 
@@ -790,11 +1005,11 @@ details,
 
 .price-card.featured {
   background: rgba(12, 8, 22, 0.94);
-  border-color: rgba(255, 77, 141, 0.5);
+  border-color: color-mix(in srgb, var(--pink) 50%, transparent);
   box-shadow:
-    0 0 0 1px rgba(255, 77, 141, 0.2),
-    0 34px 110px -30px rgba(255, 77, 141, 0.95),
-    0 18px 70px -34px rgba(124, 77, 255, 0.85);
+    0 0 0 1px color-mix(in srgb, var(--pink) 20%, transparent),
+    0 34px 110px -30px color-mix(in srgb, var(--pink) 95%, transparent),
+    0 18px 70px -34px color-mix(in srgb, var(--violet) 85%, transparent);
   transform: scale(1.035);
 }
 
@@ -811,7 +1026,7 @@ details,
 
 .price {
   align-items: baseline;
-  background: linear-gradient(135deg, var(--pink) 0%, #d84ddf 48%, var(--violet) 100%);
+  background: linear-gradient(135deg, var(--pink) 0%, color-mix(in srgb, var(--pink) 52%, var(--violet)) 48%, var(--violet) 100%);
   background-clip: text;
   color: transparent;
   display: flex;
@@ -829,7 +1044,7 @@ details,
 }
 
 .price-text {
-  background: linear-gradient(135deg, var(--pink) 0%, #d84ddf 48%, var(--violet) 100%);
+  background: linear-gradient(135deg, var(--pink) 0%, color-mix(in srgb, var(--pink) 52%, var(--violet)) 48%, var(--violet) 100%);
   background-clip: text;
   color: transparent;
   display: block;
@@ -893,7 +1108,7 @@ details,
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #8e83ff, #d26bff 42%, #ff4d8d 72%, #ff8a6b);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--violet) 88%, white), var(--violet) 30%, var(--pink) 62%, var(--orange));
   background-clip: text;
   color: transparent;
 }
@@ -928,7 +1143,7 @@ blockquote {
   background: rgba(7, 7, 17, 0.82);
   border-color: rgba(255, 255, 255, 0.12);
   border-radius: 28px;
-  box-shadow: 0 0 52px -28px rgba(255, 77, 141, 0.85);
+  box-shadow: 0 0 52px -28px color-mix(in srgb, var(--pink) 85%, transparent);
   min-height: 276px;
   padding: 34px;
 }
@@ -942,7 +1157,7 @@ blockquote {
 
 .review-avatar {
   align-items: center;
-  background: linear-gradient(135deg, #7c83ff, #d26bff 42%, #ff4d8d 75%);
+  background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 42%, var(--pink) 75%);
   border-radius: 999px;
   color: white;
   display: flex;
@@ -1108,6 +1323,10 @@ footer p {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .packages-lovable .pricing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .custom-card {
     grid-column: span 2;
   }
@@ -1221,33 +1440,33 @@ footer p {
     width: min(82%, 300px);
   }
 
-  .brand-app-icon {
-    border-radius: 22px;
-    font-size: 26px;
-    height: 64px;
-    left: 22px;
-    top: 22px;
-    width: 64px;
+  .floating-card-top {
+    gap: 8px;
+    min-height: 30px;
+  }
+
+  .floating-card-partner-pill {
+    height: 28px;
+    padding: 3px;
+    width: 28px;
   }
 
   .floating-card {
     border-radius: 22px;
     height: 190px;
-    padding: 28px 24px;
+    padding: 22px 18px 24px;
     transform: translate(-50%, -34%) rotate(4deg);
     width: min(72%, 290px);
   }
 
   .card-chip {
     height: 26px;
-    left: 26px;
-    top: 28px;
     width: 34px;
   }
 
   .floating-card strong {
     font-size: 38px;
-    margin: 46px 0 8px;
+    margin: 14px 0 8px;
   }
 
   .floating-card p {
@@ -1393,8 +1612,17 @@ footer p {
     grid-template-columns: 1fr;
   }
 
+  .packages-lovable .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
   .custom-card {
     grid-column: auto;
+  }
+
+  .packages-lovable .custom-card {
+    grid-column: auto;
+    max-width: none;
   }
 
   .price-card.featured {
@@ -1424,9 +1652,25 @@ footer p {
     min-height: 300px;
   }
 
-  .brand-app-icon {
-    height: 56px;
-    width: 56px;
+  .floating-card-partners {
+    gap: 4px;
+  }
+
+  .floating-card-partner-pill {
+    height: 26px;
+    width: 26px;
+  }
+
+  .floating-card-partners {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .floating-card-partners::-webkit-scrollbar {
+    display: none;
   }
 
   .floating-card {
@@ -1436,7 +1680,7 @@ footer p {
 
   .floating-card strong {
     font-size: 32px;
-    margin-top: 42px;
+    margin: 10px 0 6px;
   }
 
   .credit-panel strong {
